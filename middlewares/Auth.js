@@ -1,6 +1,7 @@
 const doenv = require('dotenv') ;
+doenv.config();
 const checkApi = (req , res , next ) => {
-    const apiSecret = req.headers['x-secret-key'] ;
+    const apiSecret = req.headers['authorization'] ;
     const x_secret_key = process.env.APP_API_KEY ;
 
     if(!apiSecret) {
@@ -9,7 +10,7 @@ const checkApi = (req , res , next ) => {
     if(x_secret_key !== apiSecret ) {
         return res.status(401).json({error : "Unauthorized: Invalid API secret key"}) ;
     }
-    next() ;
+    return next() 
 }
 
 module.exports = checkApi 

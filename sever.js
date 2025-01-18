@@ -8,12 +8,12 @@ const colors = require('colors');
 const { errorMiddleware } = require('./middlewares/errorMiddleware');
 const checkApi = require('./middlewares/Auth') ;
 
+app.use(express.json())
 app.use(cors());
 app.use(morgan('dev'));
 app.use(checkApi) ;
-// app.use('/api/v1/test/' , router) ;
-app.use('/api/v1/test', router)
 
+app.use('/api/v1' , router ) ;
 // validation middleware 
 app.use(errorMiddleware)
 

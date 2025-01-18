@@ -9,5 +9,17 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+    },
+    login : async (req , res) => {
+        try {
+            const {email , password } = req.body ;
+            res.status(200).json({
+                email,
+                password,
+                success: true
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
