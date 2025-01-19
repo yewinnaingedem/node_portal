@@ -5,4 +5,5 @@ const router = express.Router();
 
 router.post('/register', AuthController.post);
 
+
 module.express = router;

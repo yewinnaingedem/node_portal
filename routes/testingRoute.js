@@ -7,5 +7,6 @@ const AuthController = require('../controllers/AuthController');
 
 router.get('/testing', testingController.index);
 router.post('/login' ,  AuthController.login)
+router.post('/register' , AuthController.register ) ;
 
 module.exports = router; // Correctly use `module.exports`

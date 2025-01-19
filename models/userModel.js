@@ -1,31 +1,42 @@
-const { connect } = require('mongoose');
 const mysql = require('mysql2');
 
 const connection = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'node_job_portal'
+    password: 'Str0ng@Password!',
+    database: 'node_course'
 }).promise();
 
 connection.on('connection', function (result) {
     console.log(`connected to the sql database ${result}`.bgBlack.black)
 })
 
-async function createUser({ name, email, password }) {
+async function createUser({ id , name, email, password }) {
     try {
         const result = await connection.
-            query(`INSERT INTO users (name , email , password) VALUES (? , ? , ? )`,
-                [name, email, password]);
-        console.log(result);
+            query(`INSERT INTO user (id , name , email , password) VALUES (? , ? , ? , ? )`,
+                [id , name, email, password]);
+        if(result) {
+            return getUserByName({name}) ;
+        }
+        return false ;
     } catch (error) {
         console.log(error);
     }
 }
 
+async function getLoginUser(email , password ) {
+    try {
+        const [result] = await connection.query('SELECT * FROM user WHERE email = ? AND password = ?', [email, password]);
+        return result[0];
+    } catch (error) {
+        
+    }
+}
+
 async function getUserByName({ name }) {
     try {
-        const [result] = await connection.query(`SELECT * FROM users WHERE name = ? `, [name]);
+        const [result]= await connection.query(`SELECT * FROM user WHERE name = ? `, [name]);
         return result[0];
     } catch (error) {
         console.log(error);
@@ -53,4 +64,4 @@ connection.on('error', (err) => {
 })
 
 
-module.exports = { createUser, getUserByName, updateUser };
+module.exports = { createUser, getUserByName, updateUser , getLoginUser };
